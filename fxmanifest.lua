@@ -6,7 +6,7 @@ lua54 'yes'
 name 'ox_target'
 description 'target system for RSG RedM Framework'
 version '2.0.0'
-license 'GPL-3.0-or-later'
+license 'MIT License'
 author 'Overextended & RSG'
 
 ui_page 'web/index.html'
