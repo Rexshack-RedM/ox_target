@@ -1,10 +1,14 @@
--- FX Information
-fx_version "cerulean"
-lua54 'yes'
+fx_version 'cerulean'
 rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
-game "rdr3"
+game 'rdr3'
+lua54 'yes'
 
--- Manifest
+name 'ox_target'
+description 'target system for RSG RedM Framework'
+version '2.0.0'
+license 'GPL-3.0-or-later'
+author 'Overextended & RSG'
+
 ui_page 'web/index.html'
 
 shared_scripts {
@@ -16,7 +20,8 @@ client_scripts {
 }
 
 server_scripts {
-    'server/main.lua'
+    'server/main.lua',
+    'server/versionchecker.lua',
 }
 
 files {
