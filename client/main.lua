@@ -404,6 +404,8 @@ RegisterNUICallback('select', function(data, cb)
         end
 
         if option.menuName == 'home' then return end
+
+        state.setActive(false)
     end
 
     if not option?.openMenu and IsNuiFocused() then

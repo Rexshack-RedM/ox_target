@@ -5,7 +5,7 @@ lua54 'yes'
 
 name 'ox_target'
 description 'target system for RSG RedM Framework'
-version '2.0.0'
+version '2.0.1'
 license 'MIT License'
 author 'Overextended & RSG'
 
