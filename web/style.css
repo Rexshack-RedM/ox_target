@@ -1,4 +1,7 @@
-@import url('https://db.onlinewebfonts.com/c/ab21a97b9cae2e116d8d1473baefc9f0?family=RDR+Lino+Regular');
+@font-face {
+  font-family: 'RDR Lino Regular';
+  src: url('font/RDRLino-Regular.ttf') format('truetype');
+}
 
 :root {
   --color-default: #cfd2da;
