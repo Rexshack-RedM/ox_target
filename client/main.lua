@@ -114,6 +114,8 @@ end
 
                 if not hasTarget or options and IsDisabledControlJustPressed(0, 0x53296B75) then
                     state.setNuiFocus(false, false)
+                    state.setActive(false)
+                    break
                 end
             elseif hasTarget and IsDisabledControlJustPressed(0, 0x07B8BEAF) then
                 state.setNuiFocus(true, true)
