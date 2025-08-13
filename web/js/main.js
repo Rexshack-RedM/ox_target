@@ -2,7 +2,7 @@ import { createOptions } from "./createOptions.js";
 
 const optionsWrapper = document.getElementById("options-wrapper");
 const body = document.body;
-const eye = document.getElementById("eyeSvg");
+const targetingImage = document.getElementById("targetingImage");
 
 window.addEventListener("message", (event) => {
   optionsWrapper.innerHTML = "";
@@ -10,15 +10,25 @@ window.addEventListener("message", (event) => {
   switch (event.data.event) {
     case "visible": {
       body.style.visibility = event.data.state ? "visible" : "hidden";
-      return eye.classList.remove("eye-hover");
+      // Reset to untargeted state when not visible
+      if (!event.data.state) {
+        targetingImage.src = "assets/untarget.png";
+        targetingImage.classList.remove("has-target");
+      }
+      return;
     }
 
     case "leftTarget": {
-      return eye.classList.remove("eye-hover");
+      // Switch back to untargeted asset
+      targetingImage.src = "assets/untarget.png";
+      targetingImage.classList.remove("has-target");
+      return;
     }
 
     case "setTarget": {
-      eye.classList.add("eye-hover");
+      // Switch to targeted asset
+      targetingImage.src = "assets/target.png";
+      targetingImage.classList.add("has-target");
 
       if (event.data.options) {
         for (const type in event.data.options) {
