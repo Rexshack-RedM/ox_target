@@ -26,6 +26,7 @@ server_scripts {
 
 files {
     'web/**',
+    'web/assets/*.png',
     'locales/*.json',
     'client/api.lua',
     'client/utils.lua',
