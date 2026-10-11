@@ -1,65 +1,78 @@
-local RSGCore = exports['rsg-core']:GetCoreObject()
+local Core = exports['rsg-core']:GetCoreObject()
+
+local success, result = pcall(function()
+    return Core.Functions.GetPlayerData()
+end)
+
+local playerData = success and result or {}
 local utils = require 'client.utils'
 local playerItems = utils.getItems()
-local playerGroups = {} ---@type table<string, number> group name -> grade level
 
----@param data table? RSGCore PlayerData
-local function setPlayerData(data)
-    if not data then return end
+local function setPlayerItems()
+    if not playerData?.items then return end
 
-    table.wipe(playerGroups)
+    table.wipe(playerItems)
 
-    for _, key in ipairs({ 'job', 'gang' }) do
-        local group = data[key]
-
-        if group and group.name then
-            playerGroups[group.name] = tonumber(group.grade and group.grade.level) or 0
-        end
-    end
-
-    if data.items then
-        table.wipe(playerItems)
-
-        for _, item in pairs(data.items) do
-            if item and item.name then
-                playerItems[item.name] = (playerItems[item.name] or 0) + (tonumber(item.amount or item.count) or 0)
-            end
-        end
+    for _, item in pairs(playerData.items) do
+        playerItems[item.name] = (playerItems[item.name] or 0) + item.amount
     end
 end
 
-setPlayerData(RSGCore.Functions.GetPlayerData())
+local usingOxInventory = utils.hasExport('ox_inventory.Items')
 
-RegisterNetEvent('RSGCore:Client:OnPlayerLoaded', function()
-    setPlayerData(RSGCore.Functions.GetPlayerData())
+if not usingOxInventory then
+    setPlayerItems()
+end
+
+AddEventHandler('RSGCore:Client:OnPlayerLoaded', function()
+    playerData = Core.Functions.GetPlayerData()
+    if not usingOxInventory then setPlayerItems() end
 end)
 
-RegisterNetEvent('RSGCore:Player:SetPlayerData', setPlayerData)
+RegisterNetEvent('RSGCore:Player:SetPlayerData', function(val)
+    if source == '' then return end
 
-RegisterNetEvent('RSGCore:Client:OnPlayerUnload', function()
-    table.wipe(playerGroups)
-    table.wipe(playerItems)
+    playerData = val
+
+    if not usingOxInventory then setPlayerItems() end
 end)
 
----Accepts 'job', { 'job', 'gang' } or { job = minGrade }; matches the player's job or gang.
 ---@diagnostic disable-next-line: duplicate-set-field
 function utils.hasPlayerGotGroup(filter)
     local _type = type(filter)
 
     if _type == 'string' then
-        return playerGroups[filter] ~= nil
+        local job = playerData.job.name == filter
+        local gang = playerData.gang.name == filter
+        local citizenId = playerData.citizenid == filter
+
+        if job or gang or citizenId then
+            return true
+        end
     elseif _type == 'table' then
-        if table.type(filter) == 'hash' then
+        local tabletype = table.type(filter)
+
+        if tabletype == 'hash' then
             for name, grade in pairs(filter) do
-                local level = playerGroups[name]
-                if level and level >= (tonumber(grade) or 0) then return true end
+                local job = playerData.job.name == name
+                local gang = playerData.gang.name == name
+                local citizenId = playerData.citizenid == name
+
+                if job and grade <= playerData.job.grade.level or gang and grade <= playerData.gang.grade.level or citizenId then
+                    return true
+                end
             end
-        else
+        elseif tabletype == 'array' then
             for i = 1, #filter do
-                if playerGroups[filter[i]] then return true end
+                local name = filter[i]
+                local job = playerData.job.name == name
+                local gang = playerData.gang.name == name
+                local citizenId = playerData.citizenid == name
+
+                if job or gang or citizenId then
+                    return true
+                end
             end
         end
     end
-
-    return false
 end

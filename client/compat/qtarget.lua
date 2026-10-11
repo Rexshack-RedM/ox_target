@@ -120,7 +120,7 @@ exportHandler('AddTargetBone', function(bones, options)
         v.bones = bones
     end
 
-    api.addGlobalVehicle(options)
+    exports.ox_target:addGlobalVehicle(options)
 end)
 
 exportHandler('AddTargetEntity', function(entities, options)

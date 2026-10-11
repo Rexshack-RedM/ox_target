@@ -1,8 +1,6 @@
 local state = {}
 
 local isActive = false
-local nuiFocus = false
-local isDisabled = false
 
 ---@return boolean
 function state.isActive()
@@ -18,21 +16,23 @@ function state.setActive(value)
     end
 end
 
+local nuiFocus = false
+
 ---@return boolean
 function state.isNuiFocused()
     return nuiFocus
 end
 
 ---@param value boolean
----@param cursor? boolean
 function state.setNuiFocus(value, cursor)
-    -- SetCursorLocation is GTA-only; guard it so RedM builds without it don't error
-    if value and SetCursorLocation then SetCursorLocation(0.5, 0.5) end
+    if value then SetCursorLocation(0.5, 0.5) end
 
     nuiFocus = value
     SetNuiFocus(value, cursor or false)
     SetNuiFocusKeepInput(value)
 end
+
+local isDisabled = false
 
 ---@return boolean
 function state.isDisabled()
