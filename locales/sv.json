@@ -1,0 +1,9 @@
+{
+  "debug_box": "(Debug) Låda",
+  "debug_sphere": "(Debug) Sfär",
+  "debug_ped": "(Debug) Ped",
+  "debug_vehicle": "(Debug) Fordon",
+  "debug_object": "(Debug) Objekt",
+  "debug_global": "(Debug) Global",
+  "go_back": "Gå tillbaka"
+}

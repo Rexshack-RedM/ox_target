@@ -1,0 +1,9 @@
+{
+  "debug_box": "(Debug) Kutu",
+  "debug_sphere": "(Debug) Küre",
+  "debug_ped": "(Debug) Ped",
+  "debug_vehicle": "(Debug) Araç",
+  "debug_object": "(Debug) Nesne",
+  "debug_global": "(Debug) Genel",
+  "go_back": "Geri dön"
+}
